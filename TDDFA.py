@@ -10,6 +10,10 @@ import torch
 from torchvision.transforms import Compose
 import torch.backends.cudnn as cudnn
 
+
+import os
+import sys
+sys.path.append(os.path.dirname(__file__))
 import models
 from bfm import BFMModel
 from utils.io import _load

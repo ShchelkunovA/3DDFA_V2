@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 from math import sqrt
 import matplotlib.pyplot as plt
-
+import math
 RED = (0, 0, 255)
 GREEN = (0, 255, 0)
 BLUE = (255, 0, 0)
@@ -157,16 +157,45 @@ def draw_landmarks(img, pts, style='fancy', wfp=None, show_flag=False, **kwargs)
 
 
 def cv_draw_landmark(img_ori, pts, box=None, color=GREEN, size=1):
+    # modelPoints = np.array([[0.0, 0.0, 0.0],
+    #                [0.0, -330.0, -65.0],
+    #                [-225.0, 170.0, -135.0],
+    #                [225.0, 170.0, -135.0],
+    #                [-150.0, -150.0, -125.0],
+    #                [150.0, -150.0, -125.0]], dtype=np.float32)
+    # size = img_ori.shape
+    # focal_length = size[1]
+    # center = (size[1]/2, size[0]/2)
+    # camera_matrix = np.array(
+    #                         [[focal_length, 0, center[0]],
+    #                         [0, focal_length, center[1]],
+    #                         [0, 0, 1]], dtype = "double"
+    #                         )
+    # dist_coeffs = np.zeros((4,1)) # Assuming no lens distortion
     img = img_ori.copy()
     n = pts.shape[1]
+    points = []
     if n <= 106:
         for i in range(n):
-            cv2.circle(img, (int(round(pts[0, i])), int(round(pts[1, i]))), size, color, -1)
+            cv2.circle(img, (int(round(pts[0, i])), int(round(pts[1, i]))), 1, color, -1)
+        # points = [[int(round(pts[0, i])), int(round(pts[1, i]))] for i in [30, 8, 36, 45, 48, 54]]
     else:
         sep = 1
         for i in range(0, n, sep):
-            cv2.circle(img, (int(round(pts[0, i])), int(round(pts[1, i]))), size, color, 1)
-
+            cv2.circle(img, (int(round(pts[0, i])), int(round(pts[1, i]))), 1, color, 1)
+    if points:
+        points = np.array(points, dtype=np.float32)
+        # (success, rotation_vector, translation_vector) = cv2.solvePnP(modelPoints, points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_UPNP)
+        # (nose_end_point2D, jacobian) = cv2.projectPoints(np.array([(0.0, 0.0, 1000.0)]), rotation_vector, translation_vector, camera_matrix, dist_coeffs)
+        # p1 = ( int(points[0][0]), int(points[0][1]))
+        # p2 = ( int(nose_end_point2D[0][0][0]), int(nose_end_point2D[0][0][1]))
+        # cv2.line(img, p1, p2, (0, 255, 255), 2)
+        # m = (p2[1] - p1[1])/(p2[0] - p1[0])
+        # ang1 = int(math.degrees(math.atan(m)))
+        # cv2.putText(img, str(ang1), p1,
+        #             cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
+        # print(ang1)
+        
     if box is not None:
         left, top, right, bottom = np.round(box).astype(np.int32)
         left_top = (left, top)

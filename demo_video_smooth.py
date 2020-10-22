@@ -9,9 +9,9 @@ from tqdm import tqdm
 import yaml
 from collections import deque
 
-from FaceBoxes import FaceBoxes
+# from FaceBoxes import FaceBoxes
 from TDDFA import TDDFA
-from utils.render import render
+# from utils.render import render
 from utils.functions import cv_draw_landmark, get_suffix
 
 
