@@ -86,7 +86,7 @@ class Pose_estimator():
         else:
             gpu_mode = mode == 'gpu'
             self.tddfa = TDDFA(gpu_mode=gpu_mode, **self.cfg)
-            self.device = torch.device('cpu')
+            self.device = torch.device(mode)
         self.i = 0
         self.pre_ver = []
     def get_pose_angless(self, frame, boxes):
