@@ -93,30 +93,13 @@ class Pose_estimator():
         frame_bgr = frame
         dense_flag = self.opt in ('3d',)
         angless = []
-        # if self.i == 0 or not isinstance(self.pre_ver, np.ndarray):
-            # the first frame, detect face, here we only use the first face, you can change depending on your need
+
         param_lst, roi_box_lst = self.tddfa(frame_bgr, boxes)
         ver = self.tddfa.recon_vers(param_lst, roi_box_lst, dense_flag=dense_flag)[0]
 
         # refine
         param_lst, roi_box_lst = self.tddfa(frame_bgr, [ver], crop_policy='landmark')
-        ver = self.tddfa.recon_vers(param_lst, roi_box_lst, dense_flag=dense_flag)[0]
-            # self.i += 1
-        # else:
-        #     param_lst, roi_box_lst = self.tddfa(frame_bgr, [self.pre_ver], crop_policy='landmark')
-
-        #     roi_box = roi_box_lst[0]
-        #     # todo: add confidence threshold to judge the tracking is failed
-        #     if abs(roi_box[2] - roi_box[0]) * abs(roi_box[3] - roi_box[1]) < 2020:
-        #         param_lst, roi_box_lst = self.tddfa(frame_bgr, boxes)
-
-        #     ver = self.tddfa.recon_vers(param_lst, roi_box_lst, dense_flag=dense_flag)[0]
-
-        # pre_ver = ver  # for tracking
-        # self.pre_ver = ver
-        res = cv_draw_landmark(frame_bgr, ver)
-        # cv2.imshow('res', res)
-        # cv2.waitKey(1)
+        # ver = self.tddfa.recon_vers(param_lst, roi_box_lst, dense_flag=dense_flag)[0]
         for param in param_lst:
             P, pose_out = calc_pose(param)
             angless.append(pose_out)

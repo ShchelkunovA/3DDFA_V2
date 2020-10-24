@@ -5,7 +5,7 @@ __author__ = 'cleardusk'
 import numpy as np
 import cv2
 from math import sqrt
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import math
 RED = (0, 0, 255)
 GREEN = (0, 255, 0)
