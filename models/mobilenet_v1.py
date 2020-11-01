@@ -16,9 +16,6 @@ import torch.nn as nn
 __all__ = ['MobileNet', 'mobilenet']
 
 
-# __all__ = ['mobilenet_2', 'mobilenet_1', 'mobilenet_075', 'mobilenet_05', 'mobilenet_025']
-
-
 class DepthWiseBlock(nn.Module):
     def __init__(self, inplanes, planes, stride=1, prelu=False):
         super(DepthWiseBlock, self).__init__()
